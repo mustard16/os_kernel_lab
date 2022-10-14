@@ -47,7 +47,8 @@ idt_init(void) {
       *     Notice: the argument of lidt is idt_pd. try to find it!
       */
     extern uintptr_t __vectors[];
-
+    //地址vector，0-31为exception，32-255为interruption
+    //idt[]里面是序号，DPL_kernel为0，即ring0
     for (int i = 0; i < 32; i++) {
         SETGATE(idt[i], 1, GD_KTEXT, __vectors[i], DPL_KERNEL);
     }
@@ -198,4 +199,3 @@ trap(struct trapframe *tf) {
     // dispatch based on what type of trap occurred
     trap_dispatch(tf);
 }
-
