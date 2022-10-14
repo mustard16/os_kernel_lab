@@ -290,7 +290,7 @@ read_eip(void) {
  * */
 void
 print_stackframe(void) {
-     /* LAB1 YOUR CODE : STEP 1 */
+     /* LAB1 2013851 : STEP 1 */
      /* (1) call read_ebp() to get the value of ebp. the type is (uint32_t);
       * (2) call read_eip() to get the value of eip. the type is (uint32_t);
       * (3) from 0 .. STACKFRAME_DEPTH
@@ -306,18 +306,19 @@ print_stackframe(void) {
      uint32_t t_eip=read_eip();
      for(int i=0;i<STACKFRAME_DEPTH && t_ebp!=0;i++)
      {
-        cprintf("ebp: ",t_ebp);
-        cprintf("eip: ",t_eip);
-        cprintf("args: ");
-        for(j=1;j<5;j++)
+        cprintf("ebp:0x%08x",t_ebp);
+        cprintf(" eip:0x%08x",t_eip);
+        cprintf(" args:");
+        for(int j=1;j<5;j++)
         {
-            cprintf(*(uint32_t*(t_ebp + 4*j + 4)));      //[ebp+8\12\16\20]
+            cprintf("0x%08x",*(uint32_t*)(t_ebp + 4*j + 4));      //[ebp+8\12\16\20]
+            cprintf(" ");
         }
-        cprintf('\n');
+        cprintf("\n");
         print_debuginfo(t_eip-1);
 
-        t_eip=*(uint32_t*(t_ebp+4));
-        t_ebp=*(uint32_t*(t_ebp));
+        t_eip=*(uint32_t*)(t_ebp+4);
+        t_ebp=*(uint32_t*)(t_ebp);
      }
 }
 
